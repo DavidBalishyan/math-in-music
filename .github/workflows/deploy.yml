@@ -1,0 +1,51 @@
+name: Build and Deploy PDF
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+      - name: Create index page
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Mathematical Structures in Music</title>
+            <style>
+              * { margin: 0; padding: 0; }
+              html, body { width: 100%; height: 100%; overflow: hidden; }
+              object { width: 100%; height: 100%; }
+            </style>
+          </head>
+          <body>
+            <object data="main.pdf" type="application/pdf">PDF viewer not supported.</object>
+          </body>
+          </html>
+          EOF
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
