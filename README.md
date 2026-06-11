@@ -13,14 +13,14 @@ A short paper exploring the mathematical foundations of musical harmony, coverin
 ## Building
 
 ```bash
-pdflatex main.tex
+make build
 ```
 
 Requires a LaTeX distribution with `amsmath`, `amssymb`, `amsthm`, `tikz`, and `hyperref`.
 
 ## CI / Deployment
 
-On every push to `main`, a GitHub Actions workflow compiles the PDF and deploys it to GitHub Pages. The paper is served at `https://davidbalishyan.github.io/math-in-music/` (embedded in an HTML page so the PDF is viewable directly at the root URL).
+On every push to `main`, a GitHub Actions workflow compiles the PDF and deploys it to GitHub Pages. The paper is served at `http://davidbalishyan.github.io/math-in-music` (embedded in an HTML page so the PDF is viewable directly at the root URL).
 
 ## License
 
